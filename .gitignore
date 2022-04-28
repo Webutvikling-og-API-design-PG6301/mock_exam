@@ -1,0 +1,11 @@
+#root
+node_modules
+
+#client
+client/node_modules
+client/dist
+client/.parcel_cache
+
+#server
+server/node_modules
+server/.env
