@@ -8,6 +8,7 @@ import { Login } from "./login.js";
 
 dotenv.config();
 
+cookieParser(process.env.COOKE_SECRET);
 const app = express();
 
 app.use("/api/movies", Movies);

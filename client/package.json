@@ -4,7 +4,9 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "parcel watch src/index.html"
+    "dev": "parcel watch src/index.html",
+    "build": "npm install --include=dev && npm run build:parcel",
+    "build:parcel": "parcel build src/index.html"
   },
   "keywords": [],
   "author": "",
