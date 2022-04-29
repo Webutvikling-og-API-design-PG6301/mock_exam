@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { fetchJSON } from "../../../helpers/Hooks";
 
 const G_Login = () => {
-  const [redirectUrl, setRedirectUrl] = useState();
-
   useEffect(async () => {
     const { authorization_endpoint } = await fetchJSON(
       "https://accounts.google.com/.well-known/openid-configuration"
@@ -16,18 +14,11 @@ const G_Login = () => {
       scope: "email profile",
       redirect_uri: window.location.origin + "/g_login/callback",
     };
-    setRedirectUrl(
-      authorization_endpoint + "?" + new URLSearchParams(parameters)
-    );
+    window.location.href =
+      authorization_endpoint + "?" + new URLSearchParams(parameters);
   }, []);
 
-  return (
-    <div>
-      <h1>Welcome to Googles Login page</h1>
-      <a href={redirectUrl}>Login</a>
-      <div>{redirectUrl}</div>
-    </div>
-  );
+  return <h1>Please wait...</h1>;
 };
 
 export default G_Login;
