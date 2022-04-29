@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export function useLoading(loadingFn) {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
 

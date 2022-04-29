@@ -2,7 +2,7 @@ import express from "express";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
 dotenv.config();
-export const Oauth = express.Router();
+export const Google = express.Router();
 
 async function fetchJSON(url, options) {
   const res = await fetch(url, options);
@@ -14,16 +14,16 @@ async function fetchJSON(url, options) {
 
 const oauth_config = {
   discovery_url: "https://accounts.google.com/.well-known/openid-configuration",
-  client_id: process.env.CLIENT_ID,
+  client_id: process.env.CLIENT_ID_GOOGLE,
   scope: "openid email profile",
 };
 
-Oauth.delete("/google", (req, res) => {
+Google.delete("/google", (req, res) => {
   res.clearCookie("access_token");
   res.sendStatus(200);
 });
 
-Oauth.get("/google", async (req, res) => {
+Google.get("/google", async (req, res) => {
   const { access_token } = req.signedCookies;
   const discoveryDocument = await fetchJSON(oauth_config.discovery_url);
   const { userinfo_endpoint } = discoveryDocument;
@@ -40,7 +40,7 @@ Oauth.get("/google", async (req, res) => {
   res.json({ userinfo, oauth_config }).status(200);
 });
 
-Oauth.post("/google", (req, res) => {
+Google.post("/google", (req, res) => {
   const { access_token } = req.body;
   res.cookie("access_token", access_token, { signed: true });
   res.sendStatus(200);

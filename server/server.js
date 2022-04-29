@@ -6,14 +6,14 @@ import bodyParser from "body-parser";
 dotenv.config();
 
 import { Movies } from "./movies.js";
-import { Oauth } from "./oauth.js";
+import { Google } from "./oauth_google.js";
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use("/api/movies", Movies);
-app.use("/api/oauth", Oauth);
+app.use("/api/oauth", Google);
 
 app.use(express.static("../client/dist/"));
 
