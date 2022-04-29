@@ -1,22 +1,20 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const G_Callback = () => {
+const G_Callback = ({ reload }) => {
   const navigate = useNavigate();
   useEffect(async () => {
     const { access_token } = Object.fromEntries(
       new URLSearchParams(window.location.hash.substring(1))
     );
-
-    await fetch("/api/oauth/google", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ access_token }),
+    const res = await fetch("/api/oauth/google", {
+      method: "post",
+      body: new URLSearchParams({ access_token }),
     });
-    navigate("/");
-    console.log(access_token);
+    if (res.ok) {
+      reload();
+      navigate("/");
+    }
   }, []);
   return <div>please wait...</div>;
 };

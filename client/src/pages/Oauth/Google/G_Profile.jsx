@@ -1,22 +1,26 @@
-import React from "react";
-import { useLoading, fetchJSON } from "../../../helpers/Hooks";
+import React, { useContext } from "react";
+
+import { ProfileContext } from "../../../App";
 const G_Profile = () => {
-  const { loading, data, error } = useLoading(async () => {
-    return await fetchJSON("api/oauth/google");
-  });
+  const { userinfo } = useContext(ProfileContext);
 
-  if (loading) {
-    return <h1>please wait...</h1>;
-  }
-
-  if (error) {
-    return <p>Error! {error.toString()}</p>;
+  if (!userinfo) {
+    return <h1>Whoops, you are not logged in</h1>;
   }
 
   return (
     <div>
       <h1>Google profile</h1>
-      <div>{JSON.stringify(data)}</div>
+      <div>
+        <h2>{userinfo.name}</h2>
+        <p>{userinfo.email}</p>
+        {userinfo.picture && (
+          <img
+            src={userinfo.picture}
+            alt={userinfo.name + " profile picture"}
+          />
+        )}
+      </div>
     </div>
   );
 };

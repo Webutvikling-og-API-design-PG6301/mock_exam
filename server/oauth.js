@@ -1,22 +1,32 @@
 import express from "express";
-import fetch from 'node-fetch'
-
+import fetch from "node-fetch";
+import dotenv from "dotenv";
+dotenv.config();
 export const Oauth = express.Router();
 
 async function fetchJSON(url, options) {
   const res = await fetch(url, options);
   if (!res.ok) {
-    throw new Error(`Failed ${res.status}`);
+    throw new Error(`Error fetching ${url}: ${res.status} ${res.statusText}`);
   }
   return await res.json();
 }
 
-Oauth.get("/google", async (req, res) => {
-  const {access_token} = req.signedCookies;
+const oauth_config = {
+  discovery_url: "https://accounts.google.com/.well-known/openid-configuration",
+  client_id: process.env.CLIENT_ID,
+  scope: "openid email profile",
+};
 
-  const {userinfo_endpoint} = await fetchJSON(
-      "https://accounts.google.com/.well-known/openid-configuration"
-  );
+Oauth.delete("/google", (req, res) => {
+  res.clearCookie("access_token");
+  res.sendStatus(200);
+});
+
+Oauth.get("/google", async (req, res) => {
+  const { access_token } = req.signedCookies;
+  const discoveryDocument = await fetchJSON(oauth_config.discovery_url);
+  const { userinfo_endpoint } = discoveryDocument;
   let userinfo = undefined;
   try {
     userinfo = await fetchJSON(userinfo_endpoint, {
@@ -25,16 +35,13 @@ Oauth.get("/google", async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
+    console.error({ error });
   }
-
-  res.json(userinfo);
-
+  res.json({ userinfo, oauth_config }).status(200);
 });
-
 
 Oauth.post("/google", (req, res) => {
   const { access_token } = req.body;
   res.cookie("access_token", access_token, { signed: true });
-  res.send(200);
+  res.sendStatus(200);
 });

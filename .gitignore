@@ -1,6 +1,7 @@
 #root
 node_modules/
-.idea/
+.idea
+
 #client
 client/node_modules
 client/dist
@@ -9,3 +10,4 @@ client/.parcel-cache
 #server
 server/node_modules
 server/.env
+

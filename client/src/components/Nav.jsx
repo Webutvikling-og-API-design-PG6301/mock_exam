@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-const Nav = () => {
+import { ProfileContext } from "../App";
+
+const Nav = ({ reload }) => {
+  const { userinfo } = useContext(ProfileContext);
+
+  async function handleLogout() {
+    await fetch("/api/oauth/google", { method: "delete" });
+    reload();
+  }
   return (
     <div>
       <div>
@@ -12,12 +20,23 @@ const Nav = () => {
       <div>
         <Link to="/movies/add">Add movies</Link>
       </div>
-      <div>
-        <Link to="/g_login">Login With google</Link>
-      </div>
-      <div>
-        <Link to="/g_profile">Google profile</Link>
-      </div>
+      {!userinfo ? (
+        <div>
+          <Link to="/g_login">Login With google</Link>
+        </div>
+      ) : (
+        <div>
+          <Link to="" onClick={handleLogout}>
+            Logout
+          </Link>
+        </div>
+      )}
+      {userinfo && (
+        <div>
+          <Link to="/g_profile">Google profile</Link>
+        </div>
+      )}
+
       <div>
         <Link to="/chat">Here goes websockets</Link>
       </div>

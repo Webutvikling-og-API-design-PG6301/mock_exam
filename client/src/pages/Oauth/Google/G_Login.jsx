@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext, createContext } from "react";
 import { fetchJSON } from "../../../helpers/Hooks";
-
+import { ProfileContext } from "../../../App";
 const G_Login = () => {
-  useEffect(async () => {
-    const { authorization_endpoint } = await fetchJSON(
-      "https://accounts.google.com/.well-known/openid-configuration"
-    );
+  const { oauth_config } = useContext(ProfileContext);
 
-    const parameters = {
+  useEffect(async () => {
+    const { discovery_url, client_id, scope } = oauth_config;
+    const discoveryDocument = await fetchJSON(discovery_url);
+    const { authorization_endpoint } = discoveryDocument;
+    const params = {
       response_type: "token",
-      client_id:
-        "675880555285-bdvhf1t27kgfjf0ce7lak5kq4hjntaiu.apps.googleusercontent.com",
-      scope: "email profile",
+      response_mode: "fragment",
+      scope,
+      client_id,
       redirect_uri: window.location.origin + "/g_login/callback",
     };
     window.location.href =
-      authorization_endpoint + "?" + new URLSearchParams(parameters);
+      authorization_endpoint + "?" + new URLSearchParams(params);
   }, []);
 
   return <h1>Please wait...</h1>;

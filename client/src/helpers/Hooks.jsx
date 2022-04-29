@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export function useLoading(loadingFn) {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +20,7 @@ export function useLoading(loadingFn) {
     reload();
   }, []);
 
-  return { data, error, loading };
+  return { reload, data, error, loading };
 }
 
 export async function fetchJSON(url) {
