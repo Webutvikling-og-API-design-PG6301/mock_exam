@@ -13,10 +13,10 @@ const Nav = () => {
         <Link to="/movies/add">Add movies</Link>
       </div>
       <div>
-        <Link to="/login">Login</Link>
+        <Link to="/g_login">Login With google</Link>
       </div>
       <div>
-        <Link to="/login/callback">Login callback</Link>
+        <Link to="/g_login/callback">Login callback</Link>
       </div>
       <div>
         <Link to="/chat">Here goes websockets</Link>
