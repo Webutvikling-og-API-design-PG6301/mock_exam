@@ -15,7 +15,9 @@ const Nav = () => {
       <div>
         <Link to="/g_login">Login With google</Link>
       </div>
-
+      <div>
+        <Link to="/g_profile">Google profile</Link>
+      </div>
       <div>
         <Link to="/chat">Here goes websockets</Link>
       </div>

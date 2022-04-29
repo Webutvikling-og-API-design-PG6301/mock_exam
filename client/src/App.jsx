@@ -1,12 +1,17 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+
+// component
 import Nav from "./components/Nav";
-import ListMovies from "./pages/ListMovies";
 
 // Google oAuth
 import G_Login from "./pages/Oauth/Google/G_Login";
 import G_Profile from "./pages/Oauth/Google/G_Profile";
 import G_Callback from "./pages/Oauth/Google/G_Callback";
+
+// pages
+import Home from "./pages/Home/Home";
+import ListMovies from "./pages/ListMovies";
 // Active diractory oAuth
 
 const App = () => {
@@ -14,7 +19,7 @@ const App = () => {
     <>
       <Nav />
       <Routes>
-        <Route path="/" element={<h1>Landingpage</h1>} />
+        <Route path="/" element={<Home />} />
         <Route path="/movies/list" element={<ListMovies />} />
         <Route
           path="/movies/add"

@@ -1,6 +1,6 @@
 #root
-node_modules
-
+node_modules/
+.idea/
 #client
 client/node_modules
 client/dist

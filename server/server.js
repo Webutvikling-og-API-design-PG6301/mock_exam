@@ -2,17 +2,18 @@ import express, { Router } from "express";
 import * as path from "path";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-
-import { Movies } from "./movies.js";
-import { Login } from "./login.js";
-
+import fetch from "node-fetch";
 dotenv.config();
 
-cookieParser(process.env.COOKE_SECRET);
+import { Movies } from "./movies.js";
+import { Oauth } from "./oauth.js";
+
 const app = express();
+app.use(express.json());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use("/api/movies", Movies);
-app.use("/api/login", Login);
+app.use("/api/oauth", Oauth);
 
 app.use(express.static("../client/dist/"));
 
