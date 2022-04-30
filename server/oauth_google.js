@@ -1,16 +1,8 @@
 import express from "express";
-import fetch from "node-fetch";
 import dotenv from "dotenv";
+import { fetchJSON } from "./fetchJSON.js";
 dotenv.config();
 export const Google = express.Router();
-
-async function fetchJSON(url, options) {
-  const res = await fetch(url, options);
-  if (!res.ok) {
-    throw new Error(`Error fetching ${url}: ${res.status} ${res.statusText}`);
-  }
-  return await res.json();
-}
 
 const oauth_config = {
   discovery_url: "https://accounts.google.com/.well-known/openid-configuration",

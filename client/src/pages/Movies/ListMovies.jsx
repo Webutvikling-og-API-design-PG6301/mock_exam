@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchJSON, useLoading } from "../helpers/Hooks";
+import { fetchJSON, useLoading } from "../../helpers/Hooks";
 const ListMovies = () => {
   const { data, error, loading } = useLoading(async () =>
     fetchJSON("/api/movies/list")

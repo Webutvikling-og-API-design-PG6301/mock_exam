@@ -2,10 +2,11 @@ import React, { useEffect, useContext, createContext } from "react";
 import { fetchJSON } from "../../../helpers/Hooks";
 import { ProfileContext } from "../../../App";
 const G_Login = () => {
-  const { oauth_config } = useContext(ProfileContext);
+  const { data } = useContext(ProfileContext);
+  console.log(data.oauth_config);
 
   useEffect(async () => {
-    const { discovery_url, client_id, scope } = oauth_config;
+    const { discovery_url, client_id, scope } = data.oauth_config;
     const discoveryDocument = await fetchJSON(discovery_url);
     const { authorization_endpoint } = discoveryDocument;
     const params = {

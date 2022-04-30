@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 
 import { ProfileContext } from "../../../App";
 const G_Profile = () => {
-  const { userinfo } = useContext(ProfileContext);
-
+  const { data } = useContext(ProfileContext);
+  const { userinfo } = data;
   if (!userinfo) {
     return <h1>Whoops, you are not logged in</h1>;
   }

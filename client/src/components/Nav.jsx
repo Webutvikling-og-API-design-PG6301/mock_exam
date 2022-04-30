@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ProfileContext } from "../App";
 
 const Nav = ({ reload }) => {
-  const { userinfo } = useContext(ProfileContext);
+  const { data } = useContext(ProfileContext);
 
   async function handleLogout() {
     await fetch("/api/oauth/google", { method: "delete" });
@@ -20,7 +20,7 @@ const Nav = ({ reload }) => {
       <div>
         <Link to="/movies/add">Add movies</Link>
       </div>
-      {!userinfo ? (
+      {!data.userinfo ? (
         <div>
           <Link to="/g_login">Login With google</Link>
         </div>
@@ -31,12 +31,14 @@ const Nav = ({ reload }) => {
           </Link>
         </div>
       )}
-      {userinfo && (
+      {data.userinfo && (
         <div>
           <Link to="/g_profile">Google profile</Link>
         </div>
       )}
-
+      <div>
+        <Link to="/ad_login">Login with Active directory</Link>
+      </div>
       <div>
         <Link to="/chat">Here goes websockets</Link>
       </div>
