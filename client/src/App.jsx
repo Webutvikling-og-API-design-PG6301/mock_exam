@@ -23,25 +23,12 @@ export const ProfileContext = React.createContext({
 });
 
 const App = () => {
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState({});
   const [adData, setAdData] = useState({});
-  useEffect(() => {
-    loadAdInfo();
-    loadLoginInfo();
-  }, []);
-  console.log(data);
-  async function loadLoginInfo() {
-    setLoading(true);
-    setData(await fetchJSON("/api/oauth/google"));
-    setLoading(false);
-  }
-  async function loadAdInfo() {
-    setLoading(true);
-    setAdData(await fetchJSON("/api/oauth/ad"));
-    setLoading(false);
-  }
 
+  const { loading, data, error, reload } = useLoading(async () => {
+    return await fetchJSON("/api/oauth/google");
+  });
+  console.log(data);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -55,7 +42,7 @@ const App = () => {
 
   return (
     <ProfileContext.Provider value={oauthData}>
-      <Nav reload={loadLoginInfo} />
+      <Nav reload={reload} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/movies/list" element={<ListMovies />} />
@@ -67,11 +54,11 @@ const App = () => {
         <Route path="/ad_login" element={<AD_Login />} />
         <Route
           path="/g_login/callback"
-          element={<G_Callback reload={loadLoginInfo} />}
+          element={<G_Callback reload={reload} />}
         />
         <Route
           path="/ad_login/callback"
-          element={<AD_Callback reload={loadAdInfo} />}
+          element={<AD_Callback reload={reload} />}
         />
         <Route path="/g_profile" element={<G_Profile />} />
         <Route path="/chat" element={<h1>Use websockets here</h1>} />
