@@ -24,8 +24,8 @@ export const ProfileContext = React.createContext({
 
 const App = () => {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState();
-  const [adData, setAdData] = useState();
+  const [data, setData] = useState({});
+  const [adData, setAdData] = useState({});
   useEffect(() => {
     loadAdInfo();
     loadLoginInfo();
