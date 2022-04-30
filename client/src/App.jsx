@@ -71,7 +71,7 @@ const App = () => {
         />
         <Route
           path="/ad_login/callback"
-          element={<AD_Callback reload={loadLoginInfo} />}
+          element={<AD_Callback reload={loadAdInfo} />}
         />
         <Route path="/g_profile" element={<G_Profile />} />
         <Route path="/chat" element={<h1>Use websockets here</h1>} />
