@@ -5,9 +5,12 @@ const AD_Callback = ({ reload }) => {
 
   const navigate = useNavigate();
   useEffect(async () => {
-    const { code } = Object.fromEntries(
-      new URLSearchParams(window.location.hash.substring(1))
-    );
+    const expectedState = window.sessionStorage.getItem("expected_state");
+    const { code, state, access_token, error, error_description } =
+      Object.fromEntries(
+        new URLSearchParams(window.location.hash.substring(1))
+      );
+
     const res = await fetch("/api/oauth/ad", {
       method: "post",
       body: new URLSearchParams({ code }),
@@ -17,6 +20,16 @@ const AD_Callback = ({ reload }) => {
       navigate("/");
     } else {
       setError(`Failed to POST /api/oauth/ad: ${res.status} ${res.statusText}`);
+    }
+
+    if (error || error_description) {
+      setError(`Error: ${error} ${error_description}`);
+      return;
+    }
+
+    if (expectedState !== state) {
+      setError("Unexpected redirect (state mismatch)");
+      return;
     }
   }, []);
 

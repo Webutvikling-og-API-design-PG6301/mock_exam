@@ -3,6 +3,7 @@ import * as path from "path";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
+
 dotenv.config();
 
 import { Movies } from "./movies.js";

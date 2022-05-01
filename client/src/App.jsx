@@ -17,6 +17,7 @@ import ListMovies from "./pages/Movies/ListMovies";
 // Active diractory oAuth
 import AD_Login from "./pages/Oauth/Active_diractory/AD_Login";
 import AD_Callback from "./pages/Oauth/Active_diractory/AD_Callback";
+import AddMovies from "./pages/Movies/AddMovies";
 
 export const ProfileContext = React.createContext({
   userinfo: undefined,
@@ -59,10 +60,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/movies/list" element={<ListMovies />} />
-        <Route
-          path="/movies/add"
-          element={<h1>add new movie to the database</h1>}
-        />
+        <Route path="/movies/add" element={<AddMovies />} />
         <Route path="/g_login" element={<G_Login />} />
         <Route path="/ad_login" element={<AD_Login />} />
         <Route
