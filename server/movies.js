@@ -14,7 +14,11 @@ client.connect().then(async () => {
   console.log(moviesDB);
 
   Movies.get("/list", async (req, res) => {
-    const movies = await moviesDB.collection("movies").find().toArray();
+    const movies = await moviesDB
+      .collection("movies")
+      .find()
+      .limit(150)
+      .toArray();
 
     res.json(movies);
   });

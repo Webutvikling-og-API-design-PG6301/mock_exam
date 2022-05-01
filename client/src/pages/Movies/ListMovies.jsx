@@ -1,5 +1,6 @@
 import React from "react";
 import { fetchJSON, useLoading } from "../../helpers/Hooks";
+import SingleMovie from "./SingleMovie";
 const ListMovies = () => {
   const { data, error, loading } = useLoading(async () =>
     fetchJSON("/api/movies/list")
@@ -24,11 +25,7 @@ const ListMovies = () => {
       <h1>List movies</h1>
       <div>
         {data.map((movie) => {
-          return (
-            <div key={movie.title}>
-              <h1>{movie.title}</h1>
-            </div>
-          );
+          return <SingleMovie movie={movie} />;
         })}
       </div>
     </div>
