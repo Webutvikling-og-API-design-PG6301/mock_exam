@@ -8,14 +8,12 @@ const client = new MongoClient(process.env.MONGODB_URL);
 client.connect().then(async () => {
   console.log("connected to mongodb");
   const database = await client.db().admin().listDatabases();
-  console.log(database);
 
   const moviesDB = client.db("sample_mflix");
-  console.log(moviesDB);
 
   Movies.get("/list", async (req, res) => {
     const query = {
-      year: { $gte: 2000 },
+      year: { $gte: 2010 },
     };
     const { country } = req.query;
     if (country) {
@@ -33,8 +31,9 @@ client.connect().then(async () => {
     res.json(movies);
   });
 
-  Movies.post("/", (req, res) => {
+  Movies.post("/list", (req, res) => {
     const { title, country, year, plot } = req.body;
+    console.log({ title, country, year, plot });
     const countries = [country];
     moviesDB.collection("movies").insertOne({ title, countries, year, plot });
     res.sendStatus(200);

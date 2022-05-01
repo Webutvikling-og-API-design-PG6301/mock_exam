@@ -8,18 +8,19 @@ const oauth_config_ad = {
   discovery_url:
     "https://login.microsoftonline.com/organizations/v2.0/.well-known/openid-configuration",
   client_id: process.env.CLIENT_ID_ACTIVE_DIRECTORY,
-  scope: "openid email profile",
+  scope: "openid",
 };
 
 AD.get("/ad", async (req, res) => {
-  const { code } = req.signedCookies;
+  const { access_token } = req.signedCookies;
   const discoveryDocument = await fetchJSON(oauth_config_ad.discovery_url);
-  const { userinfo_endpoint } = discoveryDocument;
+  const { userinfo_endpoint, token_endpoint } = discoveryDocument;
+
   let userinfo = undefined;
   try {
     userinfo = await fetchJSON(userinfo_endpoint, {
       headers: {
-        Authorization: `Bearer ${code}`,
+        Authorization: `Bearer ${access_token}`,
       },
     });
   } catch (error) {
@@ -29,7 +30,7 @@ AD.get("/ad", async (req, res) => {
 });
 
 AD.post("/ad", (req, res) => {
-  const { code } = req.body;
-  res.cookie("code", code, { signed: true });
+  const { access_token } = req.body;
+  res.cookie("access_token", access_token, { signed: true });
   res.sendStatus(200);
 });

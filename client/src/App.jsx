@@ -31,7 +31,7 @@ const App = () => {
     loadAdInfo();
     loadLoginInfo();
   }, []);
-  console.log(data);
+
   async function loadLoginInfo() {
     setLoading(true);
     setData(await fetchJSON("/api/oauth/google"));
@@ -41,6 +41,7 @@ const App = () => {
     setLoading(true);
     setAdData(await fetchJSON("/api/oauth/ad"));
     setLoading(false);
+    console.log(adData);
   }
 
   if (loading) {
