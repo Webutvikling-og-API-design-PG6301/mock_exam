@@ -6,21 +6,21 @@ const AD_Login = () => {
   const { data } = useContext(ProfileContext);
 
   useEffect(async () => {
-    console.log(data);
+    console.log(data.oauth_config_ad);
 
     const state = randomString(50);
     window.sessionStorage.setItem("expected_state", state);
     const code_verifier = randomString(50);
     window.sessionStorage.setItem("code_verifier", code_verifier);
 
-    const { discovery_endpoint, client_id, scope } = data;
-    const discoveryDocument = await fetchJSON(discovery_endpoint);
+    const { discovery_url, client_id, scope } = data.oauth_config_ad;
+    const discoveryDocument = await fetchJSON(discovery_url);
     const { authorization_endpoint } = discoveryDocument;
     const params = {
       response_type: "code",
       response_mode: "fragment",
       scope,
-      client_id: "8efa99d6-1400-42d4-a8e2-a7dcd030bb12",
+      client_id,
       state,
       code_challenge: await sha256(code_verifier),
       code_challenge_method: "S256",

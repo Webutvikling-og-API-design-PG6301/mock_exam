@@ -2,18 +2,16 @@ import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ProfileContext } from "../App";
 import { useLoading, fetchJSON } from "../helpers/Hooks";
-const Nav = ({ reload }) => {
-  const { Gdata } = useContext(ProfileContext);
-  const { data, error, loading } = useLoading(async () => {
-    await fetchJSON("/api/oauth/ad");
-  });
+const Nav = ({ reload, reloadAd }) => {
+  const { Gdata, data } = useContext(ProfileContext);
+
   async function handleGoogleLogout() {
     await fetch("/api/oauth/google", { method: "delete" });
     reload();
   }
   async function handleActiveLogout() {
     await fetch("/api/oauth/ad", { method: "delete" });
-    reload();
+    reloadAd();
   }
 
   return (
@@ -27,7 +25,7 @@ const Nav = ({ reload }) => {
       <div
         style={{
           display: "flex",
-          width: "600px",
+          width: "400px",
           justifyContent: "space-between",
         }}
       >
@@ -43,37 +41,32 @@ const Nav = ({ reload }) => {
         <div>
           <Link to="/chat">Here goes websockets</Link>
         </div>
+      </div>
+      <div>
         {!Gdata.userinfo ? (
           <div>
-            <Link to="/login">Login</Link>
+            <Link to="/g_login">Google</Link>
           </div>
         ) : (
           <div>
-            <Link
-              to=""
-              onClick={() => {
-                handleActiveLogout();
-                handleGoogleLogout();
-              }}
-            >
+            <Link to="" onClick={handleGoogleLogout}>
               Logout
             </Link>
-            <div>
-              <Link to="/g_profile">Google profile</Link>
-            </div>
+          </div>
+        )}
+
+        {!data.userinfo ? (
+          <div>
+            <Link to="/ad_login">Active Directory</Link>
+          </div>
+        ) : (
+          <div>
+            <Link to="" onClick={handleActiveLogout}>
+              Logout
+            </Link>
           </div>
         )}
       </div>
-      {!Gdata.userinfo && (
-        <div>
-          <p>Sign in</p>
-        </div>
-      )}
-      {Gdata.userinfo && (
-        <div>
-          <p>welcome {Gdata.userinfo.name}</p>
-        </div>
-      )}
     </div>
   );
 };

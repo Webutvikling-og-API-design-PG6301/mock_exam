@@ -19,18 +19,18 @@ const oauth_config_ad = {
   scope: "openid email profile",
 };
 
-const discovery_endpoint =
+/* const discovery_endpoint =
   "https://login.microsoftonline.com/organizations/v2.0/.well-known/openid-configuration";
-const client_id = process.env.CLIENT_ID_ACTIVE_DIRECTORY;
+const client_id = process.env.CLIENT_ID_ACTIVE_DIRECTORY; */
 
-Active.get("/config", (req, res) => {
+/* Active.get("/config", (req, res) => {
   res.json({
     response_type: "code",
     client_id,
     discovery_endpoint,
     scope: "openid profile email",
   });
-});
+}); */
 
 Active.delete("/ad", (req, res) => {
   res.clearCookie("access_token");
@@ -39,20 +39,19 @@ Active.delete("/ad", (req, res) => {
 
 Active.get("/ad", async (req, res) => {
   const { access_token } = req.signedCookies;
-
-  const { userinfo_endpoint } = await fetchJSON(discovery_endpoint);
-  console.log(userinfo_endpoint);
-  const userinfo = await fetch(userinfo_endpoint, {
-    headers: {
-      Authorization: `Bearer ${access_token}`,
-    },
-  });
-  if (userinfo.ok) {
-    res.json(await userinfo.json());
-  } else {
-    console.log(`Failed to fetch ${userinfo.status} ${userinfo.statusText}`);
-    res.sendStatus(500);
+  const discoveryDocument = await fetchJSON(oauth_config_ad.discovery_url);
+  const { userinfo_endpoint } = discoveryDocument;
+  let userinfo = undefined;
+  try {
+    userinfo = await fetchJSON(userinfo_endpoint, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+  } catch (error) {
+    console.error({ error });
   }
+  res.json({ userinfo, oauth_config_ad }).status(200);
 });
 
 Active.post("/ad", (req, res) => {

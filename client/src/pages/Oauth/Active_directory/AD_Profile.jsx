@@ -20,7 +20,6 @@ const AD_Profile = () => {
         <h1>
           {data.name}({data.email})
         </h1>
-        <img src={data.picture} alt="" />
       </div>
     </div>
   );

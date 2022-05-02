@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ProfileContext } from "../../../App";
 import { fetchJSON } from "../../../helpers/Hooks";
 //import { ProfileContext } from "../../../App";
-const AD_Callback = () => {
+const AD_Callback = ({ reload }) => {
   const [error, setError] = useState();
   const { data } = useContext(ProfileContext);
   const navigate = useNavigate();
@@ -26,10 +26,10 @@ const AD_Callback = () => {
       setError(`Error: ${error} ${error_description}`);
       return;
     }
-    const { discovery_endpoint, client_id, scope } = await data;
-    console.log(discovery_endpoint, client_id);
+    const { discovery_url, client_id, scope } = await data.oauth_config_ad;
+
     if (code) {
-      const { token_endpoint } = await fetchJSON(discovery_endpoint);
+      const { token_endpoint } = await fetchJSON(discovery_url);
       const code_verifier = window.sessionStorage.getItem("code_verifier");
       console.log(token_endpoint);
       const tokenResponse = await fetch(token_endpoint, {
@@ -65,6 +65,7 @@ const AD_Callback = () => {
       body: JSON.stringify({ access_token: accessToken }),
     });
     if (res.ok) {
+      reload();
       navigate("/");
     } else {
       setError(`Failed POST /api/login: ${res.status} ${res.statusText}`);

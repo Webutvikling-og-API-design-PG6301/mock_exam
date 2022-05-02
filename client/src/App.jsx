@@ -26,8 +26,8 @@ import Login from "./components/Login";
 export const ProfileContext = React.createContext();
 
 const App = () => {
-  const { loading, error, data } = useLoading(() =>
-    fetchJSON("/api/oauth/config")
+  const { loading, error, data, reload } = useLoading(() =>
+    fetchJSON("/api/oauth/ad")
   );
 
   const {
@@ -43,7 +43,7 @@ const App = () => {
 
   return (
     <ProfileContext.Provider value={{ data, Gdata }}>
-      <Nav reload={Greload} />
+      <Nav reload={Greload} reloadAd={reload} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -51,7 +51,10 @@ const App = () => {
         <Route path="/movies/add" element={<AddMovies />} />
         <Route path="/ad_login" element={<AD_Login />} />
         <Route path="/ad_profile" element={<AD_Profile />} />
-        <Route path="/ad_login/callback" element={<AD_Callback />} />
+        <Route
+          path="/ad_login/callback"
+          element={<AD_Callback reload={reload} />}
+        />
         <Route
           path="/g_login/callback"
           element={<G_Callback reload={Greload} />}
