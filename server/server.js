@@ -8,15 +8,15 @@ dotenv.config();
 
 import { Movies } from "./movies.js";
 import { Google } from "./oauth_google.js";
-import { AD } from "./oauth_active_directory.js";
+import { Active } from "./oauth_active_directory.js";
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use("/api/movies", Movies);
 app.use("/api/oauth", Google);
-app.use("/api/oauth", AD);
+app.use("/api/oauth", Active);
 
 app.use(express.static("../client/dist/"));
 

@@ -10,68 +10,48 @@ import G_Login from "./pages/Oauth/Google/G_Login";
 import G_Profile from "./pages/Oauth/Google/G_Profile";
 import G_Callback from "./pages/Oauth/Google/G_Callback";
 
-// pages
+// Home
 import Home from "./pages/Home/Home";
-import ListMovies from "./pages/Movies/ListMovies";
 
-// Active diractory oAuth
-import AD_Login from "./pages/Oauth/Active_diractory/AD_Login";
-import AD_Callback from "./pages/Oauth/Active_diractory/AD_Callback";
+// Active directory oAuth
+import AD_Login from "./pages/Oauth/Active_directory/AD_Login";
+import AD_Callback from "./pages/Oauth/Active_directory/AD_Callback";
+
+// Movies
 import AddMovies from "./pages/Movies/AddMovies";
+import ListMovies from "./pages/Movies/ListMovies";
+import AD_Profile from "./pages/Oauth/Active_directory/AD_Profile";
 
-export const ProfileContext = React.createContext({
-  userinfo: undefined,
-});
+export const ProfileContext = React.createContext();
 
 const App = () => {
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState();
-  const [adData, setAdData] = useState();
-  useEffect(() => {
-    loadAdInfo();
-    loadLoginInfo();
-  }, []);
+  const { loading, error, data } = useLoading(() =>
+    fetchJSON("/api/oauth/config")
+  );
 
-  async function loadLoginInfo() {
-    setLoading(true);
-    setData(await fetchJSON("/api/oauth/google"));
-    setLoading(false);
-  }
-  async function loadAdInfo() {
-    setLoading(true);
-    setAdData(await fetchJSON("/api/oauth/ad"));
-    setLoading(false);
-    console.log(adData);
-  }
+  const {
+    loading: Gload,
+    error: Gerror,
+    data: Gdata,
+    reload: Greload,
+  } = useLoading(() => fetchJSON("/api/oauth/google"));
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  const oauthData = {
-    data,
-    adData,
-  };
-
-  console.log(oauthData);
-
   return (
-    <ProfileContext.Provider value={oauthData}>
-      <Nav reload={loadLoginInfo} />
+    <ProfileContext.Provider value={{ data, Gdata }}>
+      <Nav reload={Greload} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/movies/list" element={<ListMovies />} />
         <Route path="/movies/add" element={<AddMovies />} />
-        <Route path="/g_login" element={<G_Login />} />
         <Route path="/ad_login" element={<AD_Login />} />
-        <Route
-          path="/g_login/callback"
-          element={<G_Callback reload={loadLoginInfo} />}
-        />
-        <Route
-          path="/ad_login/callback"
-          element={<AD_Callback reload={loadAdInfo} />}
-        />
+        <Route path="/ad_profile" element={<AD_Profile />} />
+        <Route path="/ad_login/callback" element={<AD_Callback />} />
+        <Route path="/g_login/callback" element={<G_Callback />} />
+        <Route path="/g_login" element={<G_Login />} />
         <Route path="/g_profile" element={<G_Profile />} />
         <Route path="/chat" element={<h1>Use websockets here</h1>} />
       </Routes>

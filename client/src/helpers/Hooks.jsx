@@ -16,9 +16,7 @@ export function useLoading(loadingFn) {
     }
   }
 
-  useEffect(() => {
-    reload();
-  }, []);
+  useEffect(() => reload(), []);
 
   return { reload, data, error, loading };
 }

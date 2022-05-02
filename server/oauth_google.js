@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import { fetchJSON } from "./fetchJSON.js";
+import fetch from "node-fetch";
 dotenv.config();
 export const Google = express.Router();
 
@@ -9,6 +9,14 @@ const oauth_config = {
   client_id: process.env.CLIENT_ID_GOOGLE,
   scope: "openid email profile",
 };
+
+async function fetchJSON(url, options) {
+  const res = await fetch(url, options);
+  if (!res.ok) {
+    throw new Error(`Error fetching ${url}: ${res.status} ${res.statusText}`);
+  }
+  return await res.json();
+}
 
 Google.delete("/google", (req, res) => {
   res.clearCookie("access_token");

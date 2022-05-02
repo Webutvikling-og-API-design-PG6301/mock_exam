@@ -1,14 +1,15 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { ProfileContext } from "../App";
-
+import { useLoading, fetchJSON } from "../helpers/Hooks";
 const Nav = ({ reload }) => {
-  const { data } = useContext(ProfileContext);
+  const { Gdata } = useContext(ProfileContext);
 
   async function handleLogout() {
     await fetch("/api/oauth/google", { method: "delete" });
     reload();
   }
+
   return (
     <div>
       <div>
@@ -20,7 +21,7 @@ const Nav = ({ reload }) => {
       <div>
         <Link to="/movies/add">Add movies</Link>
       </div>
-      {!data.userinfo ? (
+      {!Gdata.userinfo ? (
         <div>
           <Link to="/g_login">Login With google</Link>
         </div>
@@ -31,13 +32,17 @@ const Nav = ({ reload }) => {
           </Link>
         </div>
       )}
-      {data.userinfo && (
+      {Gdata.userinfo && (
         <div>
           <Link to="/g_profile">Google profile</Link>
         </div>
       )}
+
       <div>
         <Link to="/ad_login">Login with Active directory</Link>
+      </div>
+      <div>
+        <Link to="/ad_profile">Profile for Active directory</Link>
       </div>
       <div>
         <Link to="/chat">Here goes websockets</Link>

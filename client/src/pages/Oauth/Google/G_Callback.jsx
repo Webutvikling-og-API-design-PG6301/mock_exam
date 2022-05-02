@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const G_Callback = ({ reload }) => {
+const G_Callback = () => {
   const [error, setError] = useState();
 
   const navigate = useNavigate();
@@ -14,7 +14,6 @@ const G_Callback = ({ reload }) => {
       body: new URLSearchParams({ access_token }),
     });
     if (res.ok) {
-      reload();
       navigate("/");
     } else {
       setError(

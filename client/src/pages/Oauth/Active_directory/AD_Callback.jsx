@@ -26,12 +26,10 @@ const AD_Callback = () => {
       setError(`Error: ${error} ${error_description}`);
       return;
     }
-    const { discovery_endpoint, client_id, scope } = data;
-    console.log(discovery_endpoint);
+    const { discovery_endpoint, client_id, scope } = await data;
+    console.log(discovery_endpoint, client_id);
     if (code) {
-      const { token_endpoint } = await fetchJSON(
-        "https://login.microsoftonline.com/organizations/v2.0/.well-known/openid-configuration"
-      );
+      const { token_endpoint } = await fetchJSON(discovery_endpoint);
       const code_verifier = window.sessionStorage.getItem("code_verifier");
       console.log(token_endpoint);
       const tokenResponse = await fetch(token_endpoint, {
@@ -39,7 +37,7 @@ const AD_Callback = () => {
         body: new URLSearchParams({
           code,
           grant_type: "authorization_code",
-          client_id: "8efa99d6-1400-42d4-a8e2-a7dcd030bb12",
+          client_id,
           code_verifier,
           redirect_uri: window.location.origin + "/ad_login/callback",
         }),
@@ -53,7 +51,7 @@ const AD_Callback = () => {
         return;
       }
     }
-
+    console.log(accessToken);
     if (!accessToken) {
       setError("Missing access token");
       return;
