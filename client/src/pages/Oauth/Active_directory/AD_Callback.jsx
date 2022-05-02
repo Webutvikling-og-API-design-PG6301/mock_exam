@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { ProfileContext } from "../../../App";
 import { fetchJSON } from "../../../helpers/Hooks";
 //import { ProfileContext } from "../../../App";
-const AD_Callback = ({ reload }) => {
+const AD_Callback = () => {
   const [error, setError] = useState();
-  //const { adData } = useContext(ProfileContext);
+  const { data } = useContext(ProfileContext);
   const navigate = useNavigate();
   useEffect(async () => {
-    // const { discovery_url, client_id, scope } = adData.oauth_config_ad;
+    console.log(data);
     const expectedState = window.sessionStorage.getItem("expected_state");
     const { access_token, error, error_description, state, code } =
       Object.fromEntries(
@@ -25,25 +26,27 @@ const AD_Callback = ({ reload }) => {
       setError(`Error: ${error} ${error_description}`);
       return;
     }
-
+    const { discovery_endpoint, client_id, scope } = data;
+    console.log(discovery_endpoint);
     if (code) {
       const { token_endpoint } = await fetchJSON(
         "https://login.microsoftonline.com/organizations/v2.0/.well-known/openid-configuration"
       );
       const code_verifier = window.sessionStorage.getItem("code_verifier");
-
+      console.log(token_endpoint);
       const tokenResponse = await fetch(token_endpoint, {
         method: "POST",
         body: new URLSearchParams({
           code,
           grant_type: "authorization_code",
-          client_id: "926d67d3-38c4-472d-ae6a-b31dfb1667c8",
+          client_id: "8efa99d6-1400-42d4-a8e2-a7dcd030bb12",
           code_verifier,
           redirect_uri: window.location.origin + "/ad_login/callback",
         }),
       });
       if (tokenResponse.ok) {
         const { access_token } = await tokenResponse.json();
+
         accessToken = access_token;
       } else {
         setError(`token response ${await tokenResponse.text()}`);
@@ -66,7 +69,7 @@ const AD_Callback = ({ reload }) => {
     if (res.ok) {
       navigate("/");
     } else {
-      setError(`Failed POST /api/oauth/ad: ${res.status} ${res.statusText}`);
+      setError(`Failed POST /api/login: ${res.status} ${res.statusText}`);
     }
   }, []);
 
