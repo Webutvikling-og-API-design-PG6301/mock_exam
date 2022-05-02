@@ -12,6 +12,7 @@ import { Active } from "./oauth_active_directory.js";
 
 const app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use("/api/movies", Movies);

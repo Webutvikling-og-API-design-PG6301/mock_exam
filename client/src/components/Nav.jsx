@@ -1,52 +1,79 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ProfileContext } from "../App";
 import { useLoading, fetchJSON } from "../helpers/Hooks";
 const Nav = ({ reload }) => {
   const { Gdata } = useContext(ProfileContext);
-
-  async function handleLogout() {
+  const { data, error, loading } = useLoading(async () => {
+    await fetchJSON("/api/oauth/ad");
+  });
+  async function handleGoogleLogout() {
     await fetch("/api/oauth/google", { method: "delete" });
+    reload();
+  }
+  async function handleActiveLogout() {
+    await fetch("/api/oauth/ad", { method: "delete" });
     reload();
   }
 
   return (
-    <div>
-      <div>
-        <Link to="/">Home</Link>
-      </div>
-      <div>
-        <Link to="/movies/list">List movies</Link>
-      </div>
-      <div>
-        <Link to="/movies/add">Add movies</Link>
-      </div>
-      {!Gdata.userinfo ? (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          width: "600px",
+          justifyContent: "space-between",
+        }}
+      >
         <div>
-          <Link to="/g_login">Login With google</Link>
+          <Link to="/">Home</Link>
         </div>
-      ) : (
         <div>
-          <Link to="" onClick={handleLogout}>
-            Logout
-          </Link>
+          <Link to="/movies/list">List movies</Link>
+        </div>
+        <div>
+          <Link to="/movies/add">Add movies</Link>
+        </div>
+        <div>
+          <Link to="/chat">Here goes websockets</Link>
+        </div>
+        {!Gdata.userinfo ? (
+          <div>
+            <Link to="/login">Login</Link>
+          </div>
+        ) : (
+          <div>
+            <Link
+              to=""
+              onClick={() => {
+                handleActiveLogout();
+                handleGoogleLogout();
+              }}
+            >
+              Logout
+            </Link>
+            <div>
+              <Link to="/g_profile">Google profile</Link>
+            </div>
+          </div>
+        )}
+      </div>
+      {!Gdata.userinfo && (
+        <div>
+          <p>Sign in</p>
         </div>
       )}
       {Gdata.userinfo && (
         <div>
-          <Link to="/g_profile">Google profile</Link>
+          <p>welcome {Gdata.userinfo.name}</p>
         </div>
       )}
-
-      <div>
-        <Link to="/ad_login">Login with Active directory</Link>
-      </div>
-      <div>
-        <Link to="/ad_profile">Profile for Active directory</Link>
-      </div>
-      <div>
-        <Link to="/chat">Here goes websockets</Link>
-      </div>
     </div>
   );
 };

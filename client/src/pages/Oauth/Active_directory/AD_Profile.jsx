@@ -5,6 +5,7 @@ const AD_Profile = () => {
   const { loading, data, error } = useLoading(async () => {
     return await fetchJSON("/api/oauth/ad");
   });
+
   console.log(data);
   if (loading) {
     return <div>Please wait...</div>;
@@ -16,8 +17,10 @@ const AD_Profile = () => {
     <div>
       <h1>Active Directory Profile</h1>
       <div>
-        <h1>{data.name}({data.email})</h1>
-        <img src={data.picture} alt=""/>
+        <h1>
+          {data.name}({data.email})
+        </h1>
+        <img src={data.picture} alt="" />
       </div>
     </div>
   );

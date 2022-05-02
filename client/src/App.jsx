@@ -21,6 +21,7 @@ import AD_Callback from "./pages/Oauth/Active_directory/AD_Callback";
 import AddMovies from "./pages/Movies/AddMovies";
 import ListMovies from "./pages/Movies/ListMovies";
 import AD_Profile from "./pages/Oauth/Active_directory/AD_Profile";
+import Login from "./components/Login";
 
 export const ProfileContext = React.createContext();
 
@@ -45,12 +46,16 @@ const App = () => {
       <Nav reload={Greload} />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/movies/list" element={<ListMovies />} />
         <Route path="/movies/add" element={<AddMovies />} />
         <Route path="/ad_login" element={<AD_Login />} />
         <Route path="/ad_profile" element={<AD_Profile />} />
         <Route path="/ad_login/callback" element={<AD_Callback />} />
-        <Route path="/g_login/callback" element={<G_Callback />} />
+        <Route
+          path="/g_login/callback"
+          element={<G_Callback reload={Greload} />}
+        />
         <Route path="/g_login" element={<G_Login />} />
         <Route path="/g_profile" element={<G_Profile />} />
         <Route path="/chat" element={<h1>Use websockets here</h1>} />
