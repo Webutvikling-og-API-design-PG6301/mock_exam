@@ -65,7 +65,6 @@ const AD_Callback = ({ reload }) => {
       body: JSON.stringify({ access_token: accessToken }),
     });
     if (res.ok) {
-      reload();
       navigate("/");
     } else {
       setError(`Failed POST /api/login: ${res.status} ${res.statusText}`);

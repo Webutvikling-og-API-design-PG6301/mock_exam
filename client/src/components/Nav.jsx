@@ -42,6 +42,7 @@ const Nav = ({ reload, reloadAd }) => {
           <Link to="/chat">Here goes websockets</Link>
         </div>
       </div>
+
       <div>
         {!Gdata.userinfo ? (
           <div>

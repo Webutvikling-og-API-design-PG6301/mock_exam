@@ -1,24 +1,17 @@
 import React, { useContext } from "react";
 import { fetchJSON } from "../../../helpers/Hooks";
 import { useLoading } from "../../../helpers/Hooks";
+import { ProfileContext } from "../../../App";
 const AD_Profile = () => {
-  const { loading, data, error } = useLoading(async () => {
-    return await fetchJSON("/api/oauth/ad");
-  });
+  const { data } = useContext(ProfileContext);
+  const { userinfo } = data;
 
-  console.log(data);
-  if (loading) {
-    return <div>Please wait...</div>;
-  }
-  if (error) {
-    return <div>Error! {error.toString()}</div>;
-  }
   return (
     <div>
       <h1>Active Directory Profile</h1>
       <div>
         <h1>
-          {data.name}({data.email})
+          {userinfo.name}({userinfo.email})
         </h1>
       </div>
     </div>
