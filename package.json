@@ -11,12 +11,23 @@
     "build": "npm run build:client && npm run build:server",
     "build:server": "cd server && npm run build",
     "build:client": "cd client && npm run build",
-    "start": "cd server && npm start"
+    "start": "cd server && npm start",
+    "verify": "jest --coverage"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^7.1.0"
+    "@babel/preset-env": "^7.17.10",
+    "@babel/preset-react": "^7.16.7",
+    "babel-jest": "^28.0.3",
+    "concurrently": "^7.1.0",
+    "jest": "^28.0.3"
   }
 }
