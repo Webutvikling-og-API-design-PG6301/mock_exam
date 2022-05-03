@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ProfileContext } from "../App";
 import { useLoading, fetchJSON } from "../helpers/Hooks";
 const Login = ({ reload }) => {
-  const { Gdata } = useContext(ProfileContext);
   async function handleLogout() {
     await fetch("/api/oauth/google", { method: "delete" });
     reload();

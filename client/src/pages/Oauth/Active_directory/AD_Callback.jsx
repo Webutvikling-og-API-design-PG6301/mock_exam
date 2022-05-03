@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchJSON } from "../../../helpers/Hooks";
-//import { ProfileContext } from "../../../App";
-const AD_Callback = ({ reload }) => {
+
+const AD_Callback = ({ reload, config }) => {
   const [error, setError] = useState();
-  //const { data } = useContext(ProfileContext);
+  console.log(config);
   const navigate = useNavigate();
   useEffect(async () => {
-    //console.log(data);
     const expectedState = window.sessionStorage.getItem("expected_state");
     const { access_token, error, error_description, state, code } =
       Object.fromEntries(
@@ -67,6 +66,7 @@ const AD_Callback = ({ reload }) => {
     });
     if (res.ok) {
       navigate("/");
+      reload();
     } else {
       setError(`Failed POST /api/login: ${res.status} ${res.statusText}`);
     }

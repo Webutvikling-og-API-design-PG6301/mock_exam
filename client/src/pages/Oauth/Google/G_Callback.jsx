@@ -14,8 +14,8 @@ const G_Callback = ({ reload }) => {
       body: new URLSearchParams({ access_token }),
     });
     if (res.ok) {
-      reload();
       navigate("/");
+      reload();
     } else {
       setError(
         `Failed to POST /api/oauth/google: ${res.status} ${res.statusText}`

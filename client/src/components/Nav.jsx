@@ -1,10 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ProfileContext } from "../App";
-import { useLoading, fetchJSON } from "../helpers/Hooks";
-const Nav = ({ reload, reloadAd }) => {
-  const { Gdata, data } = useContext(ProfileContext);
-  console.log(data);
+const Nav = ({ reload, reloadAd, user, user2 }) => {
+  console.log(user);
   async function handleGoogleLogout() {
     await fetch("/api/oauth/google", { method: "delete" });
     reload();
@@ -44,7 +41,7 @@ const Nav = ({ reload, reloadAd }) => {
       </div>
 
       <div>
-        {!Gdata.userinfo ? (
+        {!user.userinfo ? (
           <div>
             <Link to="/g_login">Google</Link>
           </div>
@@ -56,7 +53,7 @@ const Nav = ({ reload, reloadAd }) => {
           </div>
         )}
 
-        {!data.userinfo ? (
+        {!user2.userinfo ? (
           <div>
             <Link to="/ad_login">Active Directory</Link>
           </div>

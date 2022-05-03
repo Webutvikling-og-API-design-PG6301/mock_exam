@@ -1,19 +1,16 @@
 import React, { useEffect, useContext } from "react";
 import { fetchJSON } from "../../../helpers/Hooks";
-import { ProfileContext } from "../../../App";
+
 import { sha256, randomString } from "../../../helpers/utils";
-const AD_Login = () => {
-  const { data } = useContext(ProfileContext);
-
+const AD_Login = ({ config }) => {
+  const { oauth_config_ad } = config;
   useEffect(async () => {
-    console.log(data.oauth_config_ad);
-
     const state = randomString(50);
     window.sessionStorage.setItem("expected_state", state);
     const code_verifier = randomString(50);
     window.sessionStorage.setItem("code_verifier", code_verifier);
 
-    const { discovery_url, client_id, scope } = data.oauth_config_ad;
+    const { discovery_url, client_id, scope } = oauth_config_ad;
     const discoveryDocument = await fetchJSON(discovery_url);
     const { authorization_endpoint } = discoveryDocument;
     const params = {

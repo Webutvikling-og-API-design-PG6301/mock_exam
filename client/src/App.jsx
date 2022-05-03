@@ -23,47 +23,66 @@ import ListMovies from "./pages/Movies/ListMovies";
 import AD_Profile from "./pages/Oauth/Active_directory/AD_Profile";
 import Login from "./components/Login";
 
+import { ApiContext } from "./helpers/ApiContext";
+
 export const ProfileContext = React.createContext();
 
 const App = () => {
-  const { loading, error, data, reload } = useLoading(() =>
-    fetchJSON("/api/oauth/ad")
-  );
+  const { provideGoogle, provideActiveDirectory } = useContext(ApiContext);
 
   const {
-    loading: Gload,
-    error: Gerror,
-    data: Gdata,
-    reload: Greload,
-  } = useLoading(() => fetchJSON("/api/oauth/google"));
+    data: googleData,
+    error: googleError,
+    loading: googleLoad,
+    reload: googleReload,
+  } = useLoading(provideGoogle);
 
-  if (loading) {
+  const {
+    data: ADData,
+    error: ADError,
+    loading: ADLoad,
+    reload: ADReload,
+  } = useLoading(provideActiveDirectory);
+
+  if (ADLoad || googleLoad) {
     return <div>Loading...</div>;
   }
 
+  if (ADError || googleError) {
+    return <h1>Error: {ADError.toString() || googleError.toString()}</h1>;
+  }
+
   return (
-    <ProfileContext.Provider value={{ data, Gdata }}>
-      <Nav reload={Greload} reloadAd={reload} />
+    <>
+      <Nav
+        reload={googleReload}
+        user2={ADData}
+        user={googleData}
+        reloadAd={ADReload}
+      />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home user={googleData} user2={ADData} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/movies/list" element={<ListMovies />} />
-        <Route path="/movies/add" element={<AddMovies />} />
-        <Route path="/ad_login" element={<AD_Login />} />
-        <Route path="/ad_profile" element={<AD_Profile />} />
+        <Route
+          path="/movies/add"
+          element={<AddMovies googleUser={googleData} ADDUser={ADData} />}
+        />
+        <Route path="/ad_login" element={<AD_Login config={ADData} />} />
+        <Route path="/ad_profile" element={<AD_Profile user={ADData} />} />
         <Route
           path="/ad_login/callback"
-          element={<AD_Callback reload={reload} />}
+          element={<AD_Callback reload={ADReload} config={ADData} />}
         />
         <Route
           path="/g_login/callback"
-          element={<G_Callback reload={Greload} />}
+          element={<G_Callback reload={googleReload} config={googleData} />}
         />
-        <Route path="/g_login" element={<G_Login />} />
-        <Route path="/g_profile" element={<G_Profile />} />
+        <Route path="/g_login" element={<G_Login config={googleData} />} />
+        <Route path="/g_profile" element={<G_Profile user={googleData} />} />
         <Route path="/chat" element={<h1>Use websockets here</h1>} />
       </Routes>
-    </ProfileContext.Provider>
+    </>
   );
 };
 

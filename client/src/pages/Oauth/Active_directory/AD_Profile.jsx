@@ -1,15 +1,18 @@
-import React, { useContext } from "react";
-import { ProfileContext } from "../../../App";
-const AD_Profile = () => {
-  const { data } = useContext(ProfileContext);
+import React from "react";
 
+const AD_Profile = ({ user }) => {
+  const { userinfo } = user;
+
+  if (!userinfo) {
+    return <h1>Whoops, you are not logged in</h1>;
+  }
   return (
     <div>
       <h1>Active Directory Profile</h1>
       <div>
-        {data.userinfo && (
+        {userinfo && (
           <h1>
-            {data.userinfo.name}({data.userinfo.email})
+            {userinfo.name}({userinfo.email})
           </h1>
         )}
       </div>

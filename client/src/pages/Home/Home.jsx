@@ -1,7 +1,5 @@
-import React, { useContext } from "react";
-import { ProfileContext } from "../../App";
-const Home = () => {
-  const { Gdata, data } = useContext(ProfileContext);
+import React from "react";
+const Home = ({ user, user2 }) => {
   return (
     <div>
       <h1>Web Api Exam 2022</h1>
@@ -13,9 +11,9 @@ const Home = () => {
         </h2>
         <p>Whitout further ado, feel free to explore </p>
       </div>
-      {Gdata.userinfo && (
+      {user.userinfo && (
         <div>
-          <h2>Welcome to google {Gdata.userinfo.name}</h2>
+          <h2>Welcome to google {user.userinfo.name}</h2>
           <p>
             You can now add movies to the list and you can visit your profile{" "}
             <a href="/g_profile">here</a>
@@ -23,9 +21,9 @@ const Home = () => {
         </div>
       )}
 
-      {data.userinfo && (
+      {user2.userinfo && (
         <div>
-          <h2>Welcome to Active directory {data.userinfo.name}</h2>
+          <h2>Welcome to Active directory {user2.userinfo.name}</h2>
           <p>
             You can now add movies to the list and you can visit your profile{" "}
             <a href="/ad_profile">here</a>

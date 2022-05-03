@@ -2,11 +2,10 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormInput } from "./FormInput";
 import { ApiContext } from "../../helpers/ApiContext";
-import { ProfileContext } from "../../App";
-const AddMovies = () => {
+
+const AddMovies = ({ googleUser, ADUser }) => {
   const navigate = useNavigate();
   const { createMovie } = useContext(ApiContext);
-  /*  const { Gdata, data } = useContext(ProfileContext); */
   const [title, setTitle] = useState("");
   const [year, setYear] = useState("");
   const [country, setCountry] = useState("");
@@ -18,9 +17,9 @@ const AddMovies = () => {
     navigate("/");
   }
 
-  /* if (!Gdata.userinfo && !data.userinfo) {
+  if (!googleUser.userinfo && !ADUser.userinfo) {
     return <h1>Whoooaa. not so fast! sign in please</h1>;
-  } */
+  }
 
   return (
     <form onSubmit={handleSubmit}>

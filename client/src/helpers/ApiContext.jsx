@@ -9,4 +9,12 @@ export const ApiContext = React.createContext({
   async createMovie(movie) {
     return await postJSON("/api/movies/list", movie);
   },
+
+  async provideGoogle(google) {
+    return await fetchJSON("/api/oauth/google", google);
+  },
+
+  async provideActiveDirectory(AD) {
+    return await fetchJSON("/api/oauth/ad", AD);
+  },
 });
