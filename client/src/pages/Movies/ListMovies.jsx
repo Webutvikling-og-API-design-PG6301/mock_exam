@@ -52,7 +52,7 @@ const ListMovies = () => {
       </div>
       <div>
         {data.map((movie) => {
-          return <SingleMovie movie={movie} />;
+          return <SingleMovie key={data.movie} movie={movie} />;
         })}
       </div>
     </div>

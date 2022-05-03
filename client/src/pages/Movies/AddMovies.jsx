@@ -19,9 +19,10 @@ const AddMovies = () => {
   }
   console.log(Gdata);
 
-  if (!Gdata.userinfo) {
+  if (!Gdata.userinfo && !data.userinfo) {
     return <h1>Whoooaa. not so fast! sign in please</h1>;
   }
+
   return (
     <form onSubmit={handleSubmit}>
       <h1>Add new movie</h1>

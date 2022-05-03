@@ -5,12 +5,13 @@ const Home = () => {
   return (
     <div>
       <h1>Web Api Exam 2022</h1>
+
       <div>
         <h2>
-          Welcome you are.. Please do sign in to either one of the oauth
-          providers. It's located easly up in the top right corner, you see..
-          Cheers lad!
+          Welcome you are.. Please be patience! This application is under
+          development. Bugs and unexpected crashes can occur
         </h2>
+        <p>Whitout further ado, feel free to explore </p>
       </div>
       {Gdata.userinfo && (
         <div>
