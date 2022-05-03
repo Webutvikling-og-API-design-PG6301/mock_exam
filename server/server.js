@@ -1,8 +1,7 @@
-import express, { Router } from "express";
+import express from "express";
 import * as path from "path";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import bodyParser from "body-parser";
 
 dotenv.config();
 
@@ -12,7 +11,7 @@ import { Active } from "./oauth_active_directory.js";
 
 const app = express();
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use("/api/movies", Movies);
