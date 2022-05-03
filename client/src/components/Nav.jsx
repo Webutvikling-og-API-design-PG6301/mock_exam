@@ -43,7 +43,9 @@ const Nav = ({ reload, reloadAd, user, user2 }) => {
       <div>
         {!user.userinfo ? (
           <div>
-            <Link to="/g_login">Google</Link>
+            <Link data-testid={"google"} to="/g_login">
+              Google
+            </Link>
           </div>
         ) : (
           <div>
