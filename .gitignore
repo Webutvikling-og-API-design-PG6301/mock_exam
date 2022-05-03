@@ -1,12 +1,12 @@
 #root
 node_modules/
 .idea
-
+coverage
 #client
 client/node_modules
 client/dist
 client/.parcel-cache
-client/coverage
+
 
 #server
 server/node_modules

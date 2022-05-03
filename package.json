@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently npm:dev:client npm:dev:server",
     "dev:client": "cd client && npm run dev",
     "dev:server": "cd server && npm run dev",
@@ -12,12 +11,30 @@
     "build:server": "cd server && npm run build",
     "build:client": "cd client && npm run build",
     "start": "cd server && npm start",
-    "verify": "jest --coverage"
+    "verify": "jest --coverage",
+    "test": "jest"
   },
   "babel": {
     "presets": [
       "@babel/preset-env",
       "@babel/preset-react"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "collectCoverageFrom": [
+      "**/*.{jsx,tsx,ts,js}",
+      "!coverage/**",
+      "!client/coverage/**",
+      "!client/dist/**",
+      "!server/server.ts",
+      "!dist/**",
+      "!babel.config.js",
+      "!client/index.tsx",
+      "!config/**",
+      "!client/index.jsx",
+      "!server/coverage/**",
+      "!server/server.js"
     ]
   },
   "keywords": [],
@@ -28,6 +45,7 @@
     "@babel/preset-react": "^7.16.7",
     "babel-jest": "^28.0.3",
     "concurrently": "^7.1.0",
-    "jest": "^28.0.3"
+    "jest": "^28.0.3",
+    "jest-environment-jsdom": "^28.0.2"
   }
 }
