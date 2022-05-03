@@ -22,7 +22,7 @@ const Nav = ({ reload, reloadAd, user, user2 }) => {
       <div
         style={{
           display: "flex",
-          width: "400px",
+          width: "350px",
           justifyContent: "space-between",
         }}
       >
