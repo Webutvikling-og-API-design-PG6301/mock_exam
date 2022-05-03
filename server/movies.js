@@ -25,6 +25,13 @@ client.connect().then(async () => {
       .sort({
         metacritic: -1,
       })
+      .map(({ title, year, plot, genre, poster }) => ({
+        title,
+        year,
+        plot,
+        genre,
+        poster,
+      }))
       .limit(150)
       .toArray();
 

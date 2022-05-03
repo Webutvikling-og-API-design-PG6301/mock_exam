@@ -6,7 +6,7 @@ import { ProfileContext } from "../../App";
 const AddMovies = () => {
   const navigate = useNavigate();
   const { createMovie } = useContext(ApiContext);
-  const { Gdata, data } = useContext(ProfileContext);
+  /*  const { Gdata, data } = useContext(ProfileContext); */
   const [title, setTitle] = useState("");
   const [year, setYear] = useState("");
   const [country, setCountry] = useState("");
@@ -17,11 +17,10 @@ const AddMovies = () => {
     createMovie({ title, year: parseInt(year), country, plot });
     navigate("/");
   }
-  console.log(Gdata);
 
-  if (!Gdata.userinfo && !data.userinfo) {
+  /* if (!Gdata.userinfo && !data.userinfo) {
     return <h1>Whoooaa. not so fast! sign in please</h1>;
-  }
+  } */
 
   return (
     <form onSubmit={handleSubmit}>
