@@ -4,7 +4,7 @@ import { ProfileContext } from "../App";
 import { useLoading, fetchJSON } from "../helpers/Hooks";
 const Nav = ({ reload, reloadAd }) => {
   const { Gdata, data } = useContext(ProfileContext);
-
+  console.log(data);
   async function handleGoogleLogout() {
     await fetch("/api/oauth/google", { method: "delete" });
     reload();

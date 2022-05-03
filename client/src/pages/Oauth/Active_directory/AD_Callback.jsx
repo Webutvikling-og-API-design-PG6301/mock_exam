@@ -1,14 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { ProfileContext } from "../../../App";
 import { fetchJSON } from "../../../helpers/Hooks";
 //import { ProfileContext } from "../../../App";
 const AD_Callback = ({ reload }) => {
   const [error, setError] = useState();
-  const { data } = useContext(ProfileContext);
+  //const { data } = useContext(ProfileContext);
   const navigate = useNavigate();
   useEffect(async () => {
-    console.log(data);
+    //console.log(data);
     const expectedState = window.sessionStorage.getItem("expected_state");
     const { access_token, error, error_description, state, code } =
       Object.fromEntries(
@@ -26,10 +25,12 @@ const AD_Callback = ({ reload }) => {
       setError(`Error: ${error} ${error_description}`);
       return;
     }
-    const { discovery_url, client_id, scope } = await data.oauth_config_ad;
+    //const { discovery_url, client_id, scope } = data.oauth_config_ad;
 
     if (code) {
-      const { token_endpoint } = await fetchJSON(discovery_url);
+      const { token_endpoint } = await fetchJSON(
+        "https://login.microsoftonline.com/organizations/v2.0/.well-known/openid-configuration"
+      );
       const code_verifier = window.sessionStorage.getItem("code_verifier");
       console.log(token_endpoint);
       const tokenResponse = await fetch(token_endpoint, {
@@ -37,7 +38,7 @@ const AD_Callback = ({ reload }) => {
         body: new URLSearchParams({
           code,
           grant_type: "authorization_code",
-          client_id,
+          client_id: "8efa99d6-1400-42d4-a8e2-a7dcd030bb12",
           code_verifier,
           redirect_uri: window.location.origin + "/ad_login/callback",
         }),
@@ -65,6 +66,7 @@ const AD_Callback = ({ reload }) => {
       body: JSON.stringify({ access_token: accessToken }),
     });
     if (res.ok) {
+      reload();
       navigate("/");
     } else {
       setError(`Failed POST /api/login: ${res.status} ${res.statusText}`);

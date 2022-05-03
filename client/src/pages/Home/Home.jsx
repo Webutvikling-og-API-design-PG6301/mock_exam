@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { ProfileContext } from "../../App";
 const Home = () => {
-  const { Gdata } = useContext(ProfileContext);
+  const { Gdata, data } = useContext(ProfileContext);
   return (
     <div>
       <h1>Web Api Exam 2022</h1>

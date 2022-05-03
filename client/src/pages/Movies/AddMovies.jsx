@@ -6,7 +6,7 @@ import { ProfileContext } from "../../App";
 const AddMovies = () => {
   const navigate = useNavigate();
   const { createMovie } = useContext(ApiContext);
-  const { Gdata } = useContext(ProfileContext);
+  const { Gdata, data } = useContext(ProfileContext);
   const [title, setTitle] = useState("");
   const [year, setYear] = useState("");
   const [country, setCountry] = useState("");

@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
-import { fetchJSON } from "../../../helpers/Hooks";
-import { useLoading } from "../../../helpers/Hooks";
 import { ProfileContext } from "../../../App";
 const AD_Profile = () => {
   const { data } = useContext(ProfileContext);
   const { userinfo } = data;
-
+  console.log(userinfo);
   return (
     <div>
       <h1>Active Directory Profile</h1>
