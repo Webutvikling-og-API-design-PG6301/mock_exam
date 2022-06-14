@@ -37,7 +37,7 @@ const AD_Callback = ({ reload, config }) => {
         body: new URLSearchParams({
           code,
           grant_type: "authorization_code",
-          client_id: "8efa99d6-1400-42d4-a8e2-a7dcd030bb12",
+          client_id: id,
           code_verifier,
           redirect_uri: window.location.origin + "/ad_login/callback",
         }),
